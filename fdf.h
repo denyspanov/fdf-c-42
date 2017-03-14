@@ -12,10 +12,10 @@ typedef struct s_mas
 	int y;
 	void *mlx;
 	void *wnd;
-	int x1;
-	int x2;
-	int y1;
-	int y2;
+	double x1;
+	double x2;
+	double y1;
+	double y2;
 }t_mas;
 void draw(t_mas **mas);
 t_mas     *mas_size(int fd, t_mas **data);
