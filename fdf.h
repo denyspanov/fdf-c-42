@@ -3,6 +3,7 @@
 # include "libft.h"
 # include <fcntl.h>
 # include "mlx.h"
+# include <math.h>
 
 typedef struct s_mas
 {
@@ -11,8 +12,12 @@ typedef struct s_mas
 	int y;
 	void *mlx;
 	void *wnd;
+	int x1;
+	int x2;
+	int y1;
+	int y2;
 }t_mas;
-int mas_create(int fd);
 void draw(t_mas **mas);
-void line_draw(float x1, float x2, float y1, float y2, void *mlx, void *wnd);
+t_mas     *mas_size(int fd, t_mas **data);
+t_mas *mas_create(int fd, char *src);
 #endif

@@ -13,6 +13,8 @@ fcntl.h
 -
 mlx.h
 /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/mlx.h
+math.h
+-
 
 /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/file_read.c
 fdf.h
@@ -29,4 +31,6 @@ unistd.h
 /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/main.c
 fdf.h
 /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/fdf.h
+stdio.h
+-
 

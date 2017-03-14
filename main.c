@@ -12,39 +12,18 @@
 
 #include "fdf.h"
 
-void line_draw(float x1, float x2, float y1, float y2, void *mlx, void *wnd)
-{
-	double dx, dy, p, end;
-	float x, y;
-	dx = fabs(x1 - x2);
-	dy = fabs(y1 - y2);
-	p = 2 * dy - dx;
-	if(x1 > x2)
-	{
-		x = x2;
-		y = y2;
-		end = x1;
-	}
-	else
-	{
-		x = x1;
-		y = y1;
-		end = x2;
-	}
-	mlx_pixel_put(mlx, wnd, x, y, 0x00FFFFFF);
-	while(x < end)
-	{
-		x = x + 1;
-		if(p < 0)
-		{
-			p = p + 2 * dy;
-		}
-		else
-		{
-			y = y + 1;
-			p = p + 2 * (dy - dx);
-		}
-		mlx_pixel_put(mlx, wnd, x, y, 0x00FFFFFF);
+void line(t_mas **data, int x, int y) {
+
+	int dx = abs((*data)->x2-(*data)->x1), sx = (*data)->x1<(*data)->x2 ? 1 : -1;
+	int dy = abs((*data)->y2-(*data)->y1), sy = (*data)->y1<(*data)->y2 ? 1 : -1;
+	int err = (dx>dy ? dx : -dy)/2, e2;
+
+	for(;;){
+		mlx_pixel_put((*data)->mlx, (*data)->wnd, (*data)->x1, (*data)->y1, 0x00FFFFFF);
+		if ((*data)->x1==(*data)->x2 && (*data)->y1==(*data)->y2) break;
+		e2 = err;
+		if (e2 >-dx) { err -= dy; (*data)->x1 += sx; }
+		if (e2 < dy) { err += dx; (*data)->y1 += sy; }
 	}
 }
 
@@ -52,26 +31,45 @@ void draw(t_mas **data)
 {
 	int y;
 	int x;
-	void *mlx;
-	void *wnd;
-	int counter;
-
-	counter = 10;
-	mlx = mlx_init();
-	wnd = mlx_new_window(mlx, 2000, 2000, "FDF");
+	int len;
+	int pos;
+	(*data)->mlx = mlx_init();
+	(*data)->wnd = mlx_new_window((*data)->mlx, 2000, 2000, "FDF");
 	y = -1;
-	while (++y < (*data)->y)
+	len = 30;
+	pos = 100;
+	while (++y < (*data)->y - 1)
 	{
 		x = -1;
-		counter = 10;
+		(*data)->x1 = -(*data)->mas[y][0] + pos;
+		(*data)->y1 = -(*data)->mas[y][0] + pos + y * len;
 		while (++x < (*data)->x)
 		{
 			if (x + 1 != (*data)->x)
-				line_draw((*data)->mas[y][x] + counter, (*data)->mas[y][x] + counter,(*data)->mas[y][x] + y * 10,(*data)->mas[y][x] + y * 10,mlx, wnd);
-			counter += 10;
+			{
+				(*data)->x2 = len * (x + 1) - (*data)->mas[y][x + 1] + pos;
+				(*data)->y2 = len * y - (*data)->mas[y][x + 1] + pos;
+				line(&(*data), x , y);
+				(*data)->x1 = (*data)->x2;
+			}
 		}
 	}
-	mlx_loop(mlx);
+	y = -1;
+	while (++y < (*data)->y - 1)
+	{
+		x = -1;
+		(*data)->x1 = -(*data)->mas[y][0] + pos;
+		(*data)->y1 = -(*data)->mas[y][0] + pos + y * len;
+		while (++x < (*data)->x)
+		{
+			(*data)->x1 = len * x - (*data)->mas[y][x] + pos;
+			(*data)->x2 = len * x - (*data)->mas[y + 1][x] + pos;
+			(*data)->y1 = len * y - (*data)->mas[y][x] + pos;
+			(*data)->y2 = len * (y + 1) - (*data)->mas[y + 1][x] + pos;
+			line(&(*data), x, y);
+		}
+	}
+	mlx_loop((*data)->mlx);
 }
 
 int main(int argc, char **argv)

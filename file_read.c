@@ -17,10 +17,11 @@ t_mas     *mas_size(int fd, t_mas **data)
 	char *line;
 	int i;
 
+	(*data)->y = 0;
 	while ((get_next_line(fd, &line)) > 0)
 	{
 		i = 0;
-		(*data)->x = -1;
+		(*data)->x = 1;
 		while (line[i++] != '\0')
 		{
 			if (line[i] > 47 && line[i] < 58)
