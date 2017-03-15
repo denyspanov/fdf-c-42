@@ -11,104 +11,76 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
-void line(t_mas **data)
+
+void line(double x1, double x2, double y1, double y2, void *mlx, void *wnd)
 {
-	double dx = abs((int)(*data)->x2 - (int)(*data)->x1), sx = (*data)->x1<(*data)->x2 ? 1 : -1;
-	double dy = abs((int)(*data)->y2 - (int)(*data)->y1), sy = (*data)->y1<(*data)->y2 ? 1 : -1;
+	double dx = fabs(x2 - x1), sx = x1<x2 ? 1 : -1;
+	double dy = fabs(y2 - y1), sy = y1<y2 ? 1 : -1;
 	double err = (dx>dy ? dx : -dy)/2, e2;
 
 	for(;;){
-		mlx_pixel_put((*data)->mlx, (*data)->wnd, (int)(*data)->x1, (int)(*data)->y1, 0x004055FF);
-		if ((*data)->x1==(*data)->x2 && (*data)->y1==(*data)->y2) break;
+		mlx_pixel_put(mlx, wnd, x1, y1, 0x004055FF);
+		if (x1==x2 && y1==y2) break;
 		e2 = err;
-		if (e2 >-dx) { err -= dy; (*data)->x1 += sx; }
-		if (e2 < dy) { err += dx; (*data)->y1 += sy; }
+		if (e2 >-dx) { err -= dy; x1 += sx; }
+		if (e2 < dy) { err += dx; y1 += sy; }
 	}
 }
 
-void draw(t_mas **data)
+void draw(t_coord *head)
 {
-	int y;
-	int x;
+	double y;
+	double x;
 	int len;
 	int pos;
-	double L;
-	double B;
-	double F;
+	int window;
+	void *mlx;
+	void *img;
+	void *wnd;
+	char *str;
+	int g;
+	char *data;
+	int		bits_per_pix;
+	int		linesize;
+	int		endian;
 
-	(*data)->mlx = mlx_init();
-	(*data)->wnd = mlx_new_window((*data)->mlx, 2000, 2000, "FDF");
-	y = -1;
+	mlx = mlx_init();
+	window = 1000;
+	wnd = mlx_new_window(mlx, window, window, "FDF");
+	img = mlx_new_image(mlx, 100, 100);
+	data = mlx_get_data_addr(img, &bits_per_pix, &linesize, &endian);
 	len = 20;
 	pos = 100;
-	while (++y < (*data)->y)
+	g = 60;
+	while (head->next != NULL)
 	{
-		x = -1;
-		(*data)->x1 = -(*data)->mas[y][0] + pos;
-		(*data)->y1 = -(*data)->mas[y][0] + pos + y * len;
-		L = sqrt(((*data)->x1 * (*data)->x1) + ((*data)->y1 * (*data)->y1) - (2 * ((*data)->x1 * (*data)->y1) * cos(60)));
-		B = acos(((((*data)->x1 * (*data)->x1) + (L * L)) - ((*data)->y1 * (*data)->y1)) / (2 * ((*data)->x1) * L));
-		F = 60 + B;
-		(*data)->x1 = L * cos(F);
-		(*data)->x1 = L * sin(F) + (*data)->mas[y][x];
-		while (++x < (*data)->x)
-		{
-			if (x + 1 != (*data)->x)
-			{
-				(*data)->x2 = len * (x + 1) - (*data)->mas[y][x + 1] + pos;
-				(*data)->y2 = len * y - (*data)->mas[y][x + 1] + pos;
-				L = sqrt(((*data)->x2 * (*data)->x2) + ((*data)->y2 * (*data)->y2) - (2 * ((*data)->x2 * (*data)->y2) * cos(60)));
-				B = acos(((((*data)->x2 * (*data)->x2) + (L * L)) - ((*data)->y2 * (*data)->y2)) / (2 * ((*data)->x2) * L));
-				F = L + B;
-				(*data)->x2 = L * cos(F);
-				(*data)->y2 = L * sin(F) + (*data)->mas[y][x];
-				line(&(*data));
-				(*data)->x1 = (*data)->x2;
-			}
-		}
+		line(head->x * len + pos, head->next->x * len + pos, head->y * len + pos, head->y * len + pos, mlx, wnd);
+		line(head->x * len + pos, head->x * len + pos, head->y * len + pos, head->next->y + 1 * len + pos, mlx, wnd);
+		head = head->next;
 	}
-	/*y = -1;
-	while (++y < (*data)->y - 1)
-	{
-		x = -1;
-		while (++x < (*data)->x)
-		{
-			(*data)->x1 = len * x - (*data)->mas[y][x] + pos;
-			(*data)->x2 = len * x - (*data)->mas[y + 1][x] + pos;
-			(*data)->y1 = len * y - (*data)->mas[y][x] + pos;
-			(*data)->y2 = len * (y + 1) - (*data)->mas[y + 1][x] + pos;
-
-			line(&(*data));
-		}
-	}*/
-	mlx_loop((*data)->mlx);
+	mlx_loop(mlx);
 }
 
 int main(int argc, char **argv)
 {
 	int fd;
-	t_mas *data;
-	int i;
-	int j;
+	t_coord *head;
 
 	if (argc > 1)
 	{
 		fd = open(argv[1],O_RDONLY);
 		if (fd < 0)
 			return (0);
-		data = mas_create(fd, argv[1]);
-		draw(&data);
-		/*j = -1;
-		while (++j < data->y)
+		head = coord_read(fd);
+		while (head->next != NULL)
 		{
-			i = -1;
-			while (++i < data->x)
-			{
-				printf("%d  ",data->mas[j][i]);
-			}
-			printf("\n");
-		}*/
+			printf("x: %f ", head->x);
+			printf("y: %f ", head->y);
+			printf("z: %f \n", head->z);
+			head = head->next;
+		}
 	}
 	return (0);
 }

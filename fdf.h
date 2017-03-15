@@ -5,19 +5,13 @@
 # include "mlx.h"
 # include <math.h>
 
-typedef struct s_mas
+typedef struct s_coord
 {
-	int **mas;
-	int x;
-	int y;
-	void *mlx;
-	void *wnd;
-	double x1;
-	double x2;
-	double y1;
-	double y2;
-}t_mas;
-void draw(t_mas **mas);
-t_mas     *mas_size(int fd, t_mas **data);
-t_mas *mas_create(int fd, char *src);
+	double x;
+	double y;
+	double z;
+	unsigned int color;
+	struct s_coord *next;
+}t_coord;
+t_coord *coord_read(int fd);
 #endif

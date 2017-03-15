@@ -12,63 +12,33 @@
 
 #include "fdf.h"
 
-t_mas     *mas_size(int fd, t_mas **data)
+t_coord *coord_read(int fd)
 {
+	t_coord *head;
+	t_coord *tmp;
 	char *line;
-	int i;
+	char **str;
+	int i[2];
 
-	(*data)->y = 0;
-	while ((get_next_line(fd, &line)) > 0)
+	if (!(tmp = (t_coord *)malloc(sizeof(t_coord))))
+		return (NULL);
+	i[0] = 0;
+	head = tmp;
+	while ((get_next_line(fd, &line)) > 0 )
 	{
-		i = 0;
-		(*data)->x = 1;
-		while (line[i++] != '\0')
+		i[1] = -1;
+		str = ft_strsplit(line, ' ');
+		while (str[++i[1]])
 		{
-			if (line[i] > 47 && line[i] < 58)
-			{
-				while (line[i] > 47 && line[i] < 58)
-					i++;
-				(*data)->x++;
-			}
+			tmp->x = i[1];
+			tmp->y = i[0];
+			tmp->z = ft_atoi(str[i[1]]);
+			tmp->next = (t_coord *)malloc(sizeof(t_coord));
+			tmp->next->next = NULL;
+			tmp = tmp->next;
 		}
-		(*data)->y++;
+		i[0]++;
 	}
-	return (*data);
-}
-
-t_mas *mas_create(int fd, char *src)
-{
-	int i;
-	int j;
-	char *line;
-	char *temp;
-	t_mas *data;
-
-	data = (t_mas *)malloc(sizeof(t_mas));
-	data = mas_size(fd, &data);
-	close(fd);
-	fd = open(src,O_RDONLY);
-	data->mas = (int **)malloc(data->y * sizeof(int *));    
-	data->y = 0;
-	while ((get_next_line(fd, &line)) > 0)
-	{
-		data->mas[data->y] = (int *)malloc(data->x * sizeof(int *));
-		i = -1;
-		data->x = 0;
-		while (line[++i])
-		{
-			if ((line[i] > 47 && line[i] < 58) || line[i] == '-')
-			{
-				j = i;
-				while ((line[i] > 47 && line[i] < 58) || line[i] == '-')
-					i++;
-				temp = ft_strsub(line, j, i - j);
-				data->mas[data->y][data->x] = ft_atoi(temp);
-				data->x++;
-			}
-		}
-		data->y++;
-	}
-	return (data);
+	return (head);
 }
 
