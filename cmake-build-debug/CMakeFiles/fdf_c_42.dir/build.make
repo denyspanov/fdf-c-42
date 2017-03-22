@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/denys/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/163.13906.23/bin/cmake/bin/cmake
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/bin/cmake
 
 # The command to remove a file.
-RM = /home/denys/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/163.13906.23/bin/cmake/bin/cmake -E remove -f
+RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/denys/CLionProjects/fdf-c-42
+CMAKE_SOURCE_DIR = /nfs/2016/d/dpanov/ClionProjects/fdf-c-42
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/denys/CLionProjects/fdf-c-42/cmake-build-debug
+CMAKE_BINARY_DIR = /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/fdf_c_42.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/fdf_c_42.dir/flags.make
 
 CMakeFiles/fdf_c_42.dir/main.c.o: CMakeFiles/fdf_c_42.dir/flags.make
 CMakeFiles/fdf_c_42.dir/main.c.o: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/denys/CLionProjects/fdf-c-42/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/fdf_c_42.dir/main.c.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fdf_c_42.dir/main.c.o   -c /home/denys/CLionProjects/fdf-c-42/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/fdf_c_42.dir/main.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fdf_c_42.dir/main.c.o   -c /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/main.c
 
 CMakeFiles/fdf_c_42.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fdf_c_42.dir/main.c.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/denys/CLionProjects/fdf-c-42/main.c > CMakeFiles/fdf_c_42.dir/main.c.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/main.c > CMakeFiles/fdf_c_42.dir/main.c.i
 
 CMakeFiles/fdf_c_42.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fdf_c_42.dir/main.c.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/denys/CLionProjects/fdf-c-42/main.c -o CMakeFiles/fdf_c_42.dir/main.c.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/main.c -o CMakeFiles/fdf_c_42.dir/main.c.s
 
 CMakeFiles/fdf_c_42.dir/main.c.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/fdf_c_42.dir/main.c.o.provides.build: CMakeFiles/fdf_c_42.dir/main.c.
 
 CMakeFiles/fdf_c_42.dir/file_read.c.o: CMakeFiles/fdf_c_42.dir/flags.make
 CMakeFiles/fdf_c_42.dir/file_read.c.o: ../file_read.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/denys/CLionProjects/fdf-c-42/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/fdf_c_42.dir/file_read.c.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fdf_c_42.dir/file_read.c.o   -c /home/denys/CLionProjects/fdf-c-42/file_read.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/fdf_c_42.dir/file_read.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fdf_c_42.dir/file_read.c.o   -c /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/file_read.c
 
 CMakeFiles/fdf_c_42.dir/file_read.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fdf_c_42.dir/file_read.c.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/denys/CLionProjects/fdf-c-42/file_read.c > CMakeFiles/fdf_c_42.dir/file_read.c.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/file_read.c > CMakeFiles/fdf_c_42.dir/file_read.c.i
 
 CMakeFiles/fdf_c_42.dir/file_read.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fdf_c_42.dir/file_read.c.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/denys/CLionProjects/fdf-c-42/file_read.c -o CMakeFiles/fdf_c_42.dir/file_read.c.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/file_read.c -o CMakeFiles/fdf_c_42.dir/file_read.c.s
 
 CMakeFiles/fdf_c_42.dir/file_read.c.o.requires:
 
@@ -118,7 +118,7 @@ fdf_c_42: CMakeFiles/fdf_c_42.dir/file_read.c.o
 fdf_c_42: CMakeFiles/fdf_c_42.dir/build.make
 fdf_c_42: ../libft.a
 fdf_c_42: CMakeFiles/fdf_c_42.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/denys/CLionProjects/fdf-c-42/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable fdf_c_42"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable fdf_c_42"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/fdf_c_42.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -136,6 +136,6 @@ CMakeFiles/fdf_c_42.dir/clean:
 .PHONY : CMakeFiles/fdf_c_42.dir/clean
 
 CMakeFiles/fdf_c_42.dir/depend:
-	cd /home/denys/CLionProjects/fdf-c-42/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/denys/CLionProjects/fdf-c-42 /home/denys/CLionProjects/fdf-c-42 /home/denys/CLionProjects/fdf-c-42/cmake-build-debug /home/denys/CLionProjects/fdf-c-42/cmake-build-debug /home/denys/CLionProjects/fdf-c-42/cmake-build-debug/CMakeFiles/fdf_c_42.dir/DependInfo.cmake --color=$(COLOR)
+	cd /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /nfs/2016/d/dpanov/ClionProjects/fdf-c-42 /nfs/2016/d/dpanov/ClionProjects/fdf-c-42 /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug /nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug/CMakeFiles/fdf_c_42.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/fdf_c_42.dir/depend
 

@@ -110,48 +110,36 @@ void draw(t_coord *head)
 	mlx = mlx_init();
 	window = 1000;
 	wnd = mlx_new_window(mlx, window, window, "FDF");
-	len = 5;
-	pos = 100;
+	len = 20;
+	pos = 200;
     flag = 1;
     tmp = head;
-    double oz = 5;
-    double ox = 50;
+    double oz = M_PI / 8;
+    double ox =   - (M_PI / 3);
     double yr;
     double xr;
     double z;
     double yr1;
     double z1;
     double xr1;
-    double oy = 0;
+	double oy =   - (M_PI / 6);
+	double center_y = 11 / 2;
+	double center_x = 19 / 2;
 	while (head->next != NULL)
 	{
 
-       // x'=x*cos(L)+z*sin(L);
-        // z'=-x*sin(L)+z*cos(L);
+		x = center_x + (head->x - center_x) * cos(oz) - (head->y - center_y) * sin(oz); // OZ
+		y = center_y + (head->y - center_y) * cos(oz) + (head->x - center_x) * sin(oz); // OZ
 
-        //x'=x;
-        //y':=y*cos(L)+z*sin(L) ;
-        //z':=-y*sin(L)+z*cos(L) ;
+		x1 = center_x + (head->next->x - center_x) * cos(oz) - (head->next->y - center_y) * sin(oz); // OZ
+		y1 = center_y + (head->next->y - center_y) * cos(oz) + (head->next->x - center_x) * sin(oz); // OZ
 
-       // x'=x*cos(L)+z*sin(L);
-        //y'=y;
-        //z'=-x*sin(L)+z*cos(L);
-
-        //x'=x*cos(L)-y*sin(L);
-        //y'=x*sin(L)+y*cos(L);
-
-        head->y = head->y*cos(ox)+head->z*sin(ox);// OX
-        head->next->y= head->next->y*cos(ox)+head->next->z*sin(ox);// OX
+		x  = center_x + (x - center_x) * cos(oy) + head->z * sin(oy); // OY
+		x1 = center_x + (x1 - center_x) * cos(oy) + head->next->z * sin(oy);// OY
 
 
-        head->x = head->x*cos(oy)+head->z*sin(oy);// OY
-        head->next->x = head->next->x*cos(oy)+head->next->z*sin(oy);// OY
-
-        x = head->x*cos(oz) - head->y*sin(oz);// OZ
-        y = head->x*sin(oz) + head->y*cos(oz);// OZ
-
-        x1 = head->next->x*cos(oz) - head->next->y*sin(oz);// OZ
-        y1 = head->next->x*sin(oz) + head->next->y*cos(oz);// OZ
+		y = center_y + (y - center_y) * cos(ox) + head->z*sin(ox) ; // OX
+		y1 = center_y + (y1 - center_y) * cos(ox) + head->next->z*sin(ox) ; // OX
 
         while (tmp->next != NULL && flag == 1)
         {
@@ -162,24 +150,20 @@ void draw(t_coord *head)
             }
             tmp = tmp->next;
         }
-        if (head->y == head->next->y) {
+		if (head->y == head->next->y) {
             line(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
         }
 
-        /*tmp->y = tmp->y*cos(ox)+tmp->z*sin(ox);// OX
-       // tmp->z = (-tmp->y*sin(ox)+tmp->z*cos(ox));// OX
-        
-        tmp->x = tmp->x*cos(oz)+tmp->y*sin(oz);// OZ
-        y1 = tmp->x*sin(oz)-tmp->y*cos(oz);// OZ
+		x1 = center_x + (tmp->x - center_x) * cos(oz) - (tmp->y - center_y) * sin(oz); // OZ
+		y1 = center_y + (tmp->y - center_y) * cos(oz) + (tmp->x - center_x) * sin(oz); // OZ
 
-        x1 = head->x*cos(oy)+head->z*sin(oy);// OY
-
+		x1 = center_x + (x1 - center_x) * cos(oy) + tmp->z * sin(oy); // OY
+		y1 = center_y + (y1 - center_y) * cos(ox) + tmp->z*sin(ox) ; // OX
 
         if (tmp->next != NULL) {
-            lines(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
+            line(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
             tmp = tmp->next;
-        }*/
-        
+        }
 		head = head->next;
 	}
 	mlx_loop(mlx);

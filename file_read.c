@@ -12,6 +12,7 @@
 
 #include "fdf.h"
 
+
 t_coord *coord_read(int fd)
 {
 	t_coord *head;
