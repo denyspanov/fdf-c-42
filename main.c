@@ -13,51 +13,173 @@
 #include "fdf.h"
 #include <stdio.h>
 
-
-void line(double x1, double x2, double y1, double y2, void *mlx, void *wnd)
+void line(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
 {
-	double dx = fabs(x2 - x1), sx = x1<x2 ? 1 : -1;
-	double dy = fabs(y2 - y1), sy = y1<y2 ? 1 : -1;
-	double err = (dx>dy ? dx : -dy)/2, e2;
+    int dy = y2 - y1;
+    int dx = x2 - x1;
+    int stepx, stepy;
 
-	for(;;){
-		mlx_pixel_put(mlx, wnd, x1, y1, 0x004055FF);
-		if (x1==x2 && y1==y2) break;
-		e2 = err;
-		if (e2 >-dx) { err -= dy; x1 += sx; }
-		if (e2 < dy) { err += dx; y1 += sy; }
-	}
+    if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
+    if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
+    dy <<= 1;        // dy is now 2*dy
+    dx <<= 1;        // dx is now 2*dx
+
+    mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+    if (dx > dy)
+    {
+        int fraction = dy - (dx >> 1);  // same as 2*dy - dx
+        while (x1 != x2)
+        {
+            if (fraction >= 0)
+            {
+                y1 += stepy;
+                fraction -= dx;          // same as fraction -= 2*dx
+            }
+            x1 += stepx;
+            fraction += dy;              // same as fraction -= 2*dy
+            mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+        }
+    } else {
+        int fraction = dx - (dy >> 1);
+        while (y1 != y2) {
+            if (fraction >= 0) {
+                x1 += stepx;
+                fraction -= dy;
+            }
+            y1 += stepy;
+            fraction += dx;
+            mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+        }
+    }
 }
+void lines(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
+{
+    int dy = y2 - y1;
+    int dx = x2 - x1;
+    int stepx, stepy;
 
+    if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
+    if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
+    dy <<= 1;        // dy is now 2*dy
+    dx <<= 1;        // dx is now 2*dx
+
+    mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
+    if (dx > dy)
+    {
+        int fraction = dy - (dx >> 1);  // same as 2*dy - dx
+        while (x1 != x2)
+        {
+            if (fraction >= 0)
+            {
+                y1 += stepy;
+                fraction -= dx;          // same as fraction -= 2*dx
+            }
+            x1 += stepx;
+            fraction += dy;              // same as fraction -= 2*dy
+            mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
+        }
+    } else {
+        int fraction = dx - (dy >> 1);
+        while (y1 != y2) {
+            if (fraction >= 0) {
+                x1 += stepx;
+                fraction -= dy;
+            }
+            y1 += stepy;
+            fraction += dx;
+            mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
+        }
+    }
+}
 void draw(t_coord *head)
 {
 	double y;
 	double x;
+    double x1;
+    double y1;
 	int len;
+    int flag;
 	int pos;
 	int window;
 	void *mlx;
 	void *img;
 	void *wnd;
 	char *str;
-	int g;
-	char *data;
-	int		bits_per_pix;
-	int		linesize;
-	int		endian;
+	t_coord *tmp;
 
 	mlx = mlx_init();
 	window = 1000;
 	wnd = mlx_new_window(mlx, window, window, "FDF");
-	img = mlx_new_image(mlx, 100, 100);
-	data = mlx_get_data_addr(img, &bits_per_pix, &linesize, &endian);
-	len = 20;
+	len = 5;
 	pos = 100;
-	g = 60;
+    flag = 1;
+    tmp = head;
+    double oz = 5;
+    double ox = 50;
+    double yr;
+    double xr;
+    double z;
+    double yr1;
+    double z1;
+    double xr1;
+    double oy = 0;
 	while (head->next != NULL)
 	{
-		line(head->x * len + pos, head->next->x * len + pos, head->y * len + pos, head->y * len + pos, mlx, wnd);
-		line(head->x * len + pos, head->x * len + pos, head->y * len + pos, head->next->y + 1 * len + pos, mlx, wnd);
+
+       // x'=x*cos(L)+z*sin(L);
+        // z'=-x*sin(L)+z*cos(L);
+
+        //x'=x;
+        //y':=y*cos(L)+z*sin(L) ;
+        //z':=-y*sin(L)+z*cos(L) ;
+
+       // x'=x*cos(L)+z*sin(L);
+        //y'=y;
+        //z'=-x*sin(L)+z*cos(L);
+
+        //x'=x*cos(L)-y*sin(L);
+        //y'=x*sin(L)+y*cos(L);
+
+        head->y = head->y*cos(ox)+head->z*sin(ox);// OX
+        head->next->y= head->next->y*cos(ox)+head->next->z*sin(ox);// OX
+
+
+        head->x = head->x*cos(oy)+head->z*sin(oy);// OY
+        head->next->x = head->next->x*cos(oy)+head->next->z*sin(oy);// OY
+
+        x = head->x*cos(oz) - head->y*sin(oz);// OZ
+        y = head->x*sin(oz) + head->y*cos(oz);// OZ
+
+        x1 = head->next->x*cos(oz) - head->next->y*sin(oz);// OZ
+        y1 = head->next->x*sin(oz) + head->next->y*cos(oz);// OZ
+
+        while (tmp->next != NULL && flag == 1)
+        {
+            if (tmp->y != tmp->next->y){
+                tmp = tmp->next;
+                flag = 0;
+                break ;
+            }
+            tmp = tmp->next;
+        }
+        if (head->y == head->next->y) {
+            line(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
+        }
+
+        /*tmp->y = tmp->y*cos(ox)+tmp->z*sin(ox);// OX
+       // tmp->z = (-tmp->y*sin(ox)+tmp->z*cos(ox));// OX
+        
+        tmp->x = tmp->x*cos(oz)+tmp->y*sin(oz);// OZ
+        y1 = tmp->x*sin(oz)-tmp->y*cos(oz);// OZ
+
+        x1 = head->x*cos(oy)+head->z*sin(oy);// OY
+
+
+        if (tmp->next != NULL) {
+            lines(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
+            tmp = tmp->next;
+        }*/
+        
 		head = head->next;
 	}
 	mlx_loop(mlx);
@@ -74,13 +196,7 @@ int main(int argc, char **argv)
 		if (fd < 0)
 			return (0);
 		head = coord_read(fd);
-		while (head->next != NULL)
-		{
-			printf("x: %f ", head->x);
-			printf("y: %f ", head->y);
-			printf("z: %f \n", head->z);
-			head = head->next;
-		}
+        draw(head);
 	}
 	return (0);
 }
