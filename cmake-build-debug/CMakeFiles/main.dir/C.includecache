@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/fdf.h
+libft/libft.h
+/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/libft/libft.h
+fcntl.h
+-
+mlx.h
+/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/mlx.h
+math.h
+-
+
+/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/file_read.c
+fdf.h
+/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/fdf.h
+
+/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/libft/libft.h
+string.h
+-
+stdlib.h
+-
+unistd.h
+-
+
+/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/main.c
+fdf.h
+/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/fdf.h
+stdio.h
+-
+

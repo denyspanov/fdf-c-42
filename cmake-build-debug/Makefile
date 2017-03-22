@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named fdf_c_42
+# Target rules for targets named main
 
 # Build rule for target.
-fdf_c_42: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 fdf_c_42
-.PHONY : fdf_c_42
+main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 main
+.PHONY : main
 
 # fast build rule for target.
-fdf_c_42/fast:
-	$(MAKE) -f CMakeFiles/fdf_c_42.dir/build.make CMakeFiles/fdf_c_42.dir/build
-.PHONY : fdf_c_42/fast
+main/fast:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
 
 file_read.o: file_read.c.o
 
@@ -129,7 +129,7 @@ file_read.o: file_read.c.o
 
 # target to build an object file
 file_read.c.o:
-	$(MAKE) -f CMakeFiles/fdf_c_42.dir/build.make CMakeFiles/fdf_c_42.dir/file_read.c.o
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/file_read.c.o
 .PHONY : file_read.c.o
 
 file_read.i: file_read.c.i
@@ -138,7 +138,7 @@ file_read.i: file_read.c.i
 
 # target to preprocess a source file
 file_read.c.i:
-	$(MAKE) -f CMakeFiles/fdf_c_42.dir/build.make CMakeFiles/fdf_c_42.dir/file_read.c.i
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/file_read.c.i
 .PHONY : file_read.c.i
 
 file_read.s: file_read.c.s
@@ -147,7 +147,7 @@ file_read.s: file_read.c.s
 
 # target to generate assembly for a file
 file_read.c.s:
-	$(MAKE) -f CMakeFiles/fdf_c_42.dir/build.make CMakeFiles/fdf_c_42.dir/file_read.c.s
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/file_read.c.s
 .PHONY : file_read.c.s
 
 main.o: main.c.o
@@ -156,7 +156,7 @@ main.o: main.c.o
 
 # target to build an object file
 main.c.o:
-	$(MAKE) -f CMakeFiles/fdf_c_42.dir/build.make CMakeFiles/fdf_c_42.dir/main.c.o
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.c.o
 .PHONY : main.c.o
 
 main.i: main.c.i
@@ -165,7 +165,7 @@ main.i: main.c.i
 
 # target to preprocess a source file
 main.c.i:
-	$(MAKE) -f CMakeFiles/fdf_c_42.dir/build.make CMakeFiles/fdf_c_42.dir/main.c.i
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.c.i
 .PHONY : main.c.i
 
 main.s: main.c.s
@@ -174,7 +174,7 @@ main.s: main.c.s
 
 # target to generate assembly for a file
 main.c.s:
-	$(MAKE) -f CMakeFiles/fdf_c_42.dir/build.make CMakeFiles/fdf_c_42.dir/main.c.s
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.c.s
 .PHONY : main.c.s
 
 # Help Target
@@ -185,7 +185,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... fdf_c_42"
+	@echo "... main"
 	@echo "... file_read.o"
 	@echo "... file_read.i"
 	@echo "... file_read.s"

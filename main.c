@@ -13,6 +13,7 @@
 #include "fdf.h"
 #include <stdio.h>
 
+/*
 void line(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
 {
     int dy = y2 - y1;
@@ -106,7 +107,6 @@ void draw(t_coord *head)
 	void *wnd;
 	char *str;
 	t_coord *tmp;
-
 	mlx = mlx_init();
 	window = 1000;
 	wnd = mlx_new_window(mlx, window, window, "FDF");
@@ -168,19 +168,170 @@ void draw(t_coord *head)
 	}
 	mlx_loop(mlx);
 }
+*/
+
+
+
+void rot_matrix(t_data **data)
+{
+	(*data)->x_home   = (((*data)->center_x + ((*data)->tmp->x - (*data)->center_x) * cos((*data)->oz)) - (((*data)->tmp->y - (*data)->center_y) * sin((*data)->oz)));
+	(*data)->y_home   = (((*data)->center_y + ((*data)->tmp->y - (*data)->center_y) * cos((*data)->oz)) + (((*data)->tmp->x - (*data)->center_x) * sin((*data)->oz)));
+	(*data)->x_offset = (((*data)->center_x + ((*data)->tmp->next->x - (*data)->center_x) * cos((*data)->oz)) - (((*data)->tmp->next->y - (*data)->center_y) * sin((*data)->oz)));
+	(*data)->y_offset = (((*data)->center_y + ((*data)->tmp->next->y - (*data)->center_y) * cos((*data)->oz)) + (((*data)->tmp->next->x - (*data)->center_x) * sin((*data)->oz)));
+
+/*x  = center_x + (x - center_x) * cos(oy) + head->z * sin(oy); // OY
+	x1 = center_x + (x1 - center_x) * cos(oy) + head->next->z * sin(oy);// OY
+
+
+	y = center_y + (y - center_y) * cos(ox) + head->z*sin(ox) ; // OX
+	y1 = center_y + (y1 - center_y) * cos(ox) + head->next->z*sin(ox) ; // OX*/
+}
+
+
+void line(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
+{
+	int dy = y2 - y1;
+	int dx = x2 - x1;
+	int stepx, stepy;
+
+	if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
+	if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
+	dy <<= 1;        // dy is now 2*dy
+	dx <<= 1;        // dx is now 2*dx
+
+	mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+	if (dx > dy)
+	{
+		int fraction = dy - (dx >> 1);  // same as 2*dy - dx
+		while (x1 != x2)
+		{
+			if (fraction >= 0)
+			{
+				y1 += stepy;
+				fraction -= dx;          // same as fraction -= 2*dx
+			}
+			x1 += stepx;
+			fraction += dy;              // same as fraction -= 2*dy
+			mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+		}
+	} else {
+		int fraction = dx - (dy >> 1);
+		while (y1 != y2) {
+			if (fraction >= 0) {
+				x1 += stepx;
+				fraction -= dy;
+			}
+			y1 += stepy;
+			fraction += dx;
+			mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+		}
+	}
+}
+void lines(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
+{
+	int dy = y2 - y1;
+	int dx = x2 - x1;
+	int stepx, stepy;
+
+	if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
+	if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
+	dy <<= 1;        // dy is now 2*dy
+	dx <<= 1;        // dx is now 2*dx
+
+	mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
+	if (dx > dy)
+	{
+		int fraction = dy - (dx >> 1);  // same as 2*dy - dx
+		while (x1 != x2)
+		{
+			if (fraction >= 0)
+			{
+				y1 += stepy;
+				fraction -= dx;          // same as fraction -= 2*dx
+			}
+			x1 += stepx;
+			fraction += dy;              // same as fraction -= 2*dy
+			mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
+		}
+	} else {
+		int fraction = dx - (dy >> 1);
+		while (y1 != y2) {
+			if (fraction >= 0) {
+				x1 += stepx;
+				fraction -= dy;
+			}
+			y1 += stepy;
+			fraction += dx;
+			mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
+		}
+	}
+}
+void draw(t_data **data)
+{
+	int len;
+	int pos;
+	int window;
+	void *mlx;
+	void *img;
+	void *wnd;
+	char *str;
+	t_coord *tmp;
+	mlx = mlx_init();
+	window = 1000;
+	wnd = mlx_new_window(mlx, window, window, "FDF");
+	len = 20;
+	pos = 200;
+	tmp = (*data)->head;
+	(*data)->tmp = (*data)->head;
+	(*data)->oz = M_PI / 8;
+	while ((*data)->tmp->next != NULL)
+	{
+
+		rot_matrix(&(*data));
+		if ((*data)->tmp->y == (*data)->tmp->next->y) {
+			line((*data)->x_home* len + pos, (*data)->x_offset * len + pos, (*data)->y_home * len + pos, (*data)->y_offset * len + pos, mlx, wnd);
+		}
+
+	/*	*//**//*x1 = center_x + (tmp->x - center_x) * cos(oz) - (tmp->y - center_y) * sin(oz); // OZ
+		y1 = center_y + (tmp->y - center_y) * cos(oz) + (tmp->x - center_x) * sin(oz); // OZ
+
+		x1 = center_x + (x1 - center_x) * cos(oy) + tmp->z * sin(oy); // OY
+		y1 = center_y + (y1 - center_y) * cos(ox) + tmp->z*sin(ox) ; // OX
+
+		if (tmp->next != NULL) {
+			line(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
+			tmp = tmp->next;
+		}*//**/
+		(*data)->tmp = (*data)->tmp->next;
+	}
+	mlx_loop(mlx);
+}
 
 int main(int argc, char **argv)
 {
 	int fd;
-	t_coord *head;
+	t_data *data;
 
 	if (argc > 1)
 	{
 		fd = open(argv[1],O_RDONLY);
 		if (fd < 0)
 			return (0);
-		head = coord_read(fd);
-        draw(head);
+		data = coord_read(fd);
+		draw(&data);
+		/*while (data->head->next != NULL)
+		{
+			printf("x: %f ", data->head->x);
+			printf("y: %f ", data->head->y);
+			printf("z: %f ", data->head->z);
+			printf("color: %d\n", data->head->color);
+			data->head = data->head->next;
+		}
+		printf("max_y: %d ", data->max_y);
+		printf("max_x: %d\n", data->max_x);
+		printf("center_x: %f ", data->center_x);
+		printf("center_y: %f\n", data->center_y);*/
+        /*draw(head);*/
 	}
 	return (0);
 }

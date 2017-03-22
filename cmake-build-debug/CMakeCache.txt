@@ -135,7 +135,7 @@ CMAKE_OSX_DEPLOYMENT_TARGET:STRING=
 CMAKE_OSX_SYSROOT:STRING=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=fdf_c_42
+CMAKE_PROJECT_NAME:STATIC=untitled
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
@@ -190,10 +190,28 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 ProcessorCount_cmd_sysctl:FILEPATH=/usr/sbin/sysctl
 
 //Value Computed by CMake
+fdf-c-42_BINARY_DIR:STATIC=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug
+
+//Value Computed by CMake
+fdf-c-42_SOURCE_DIR:STATIC=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42
+
+//Value Computed by CMake
 fdf_c_42_BINARY_DIR:STATIC=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug
 
 //Value Computed by CMake
 fdf_c_42_SOURCE_DIR:STATIC=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42
+
+//Value Computed by CMake
+mlx_test_BINARY_DIR:STATIC=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug
+
+//Value Computed by CMake
+mlx_test_SOURCE_DIR:STATIC=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42
+
+//Value Computed by CMake
+untitled_BINARY_DIR:STATIC=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug
+
+//Value Computed by CMake
+untitled_SOURCE_DIR:STATIC=/nfs/2016/d/dpanov/ClionProjects/fdf-c-42
 
 
 ########################
