@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/file_read.c" "/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug/CMakeFiles/main.dir/file_read.c.o"
-  "/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/main.c" "/nfs/2016/d/dpanov/ClionProjects/fdf-c-42/cmake-build-debug/CMakeFiles/main.dir/main.c.o"
+  "/home/denys/CLionProjects/fdf-c-42/file_read.c" "/home/denys/CLionProjects/fdf-c-42/cmake-build-debug/CMakeFiles/main.dir/file_read.c.o"
+  "/home/denys/CLionProjects/fdf-c-42/main.c" "/home/denys/CLionProjects/fdf-c-42/cmake-build-debug/CMakeFiles/main.dir/main.c.o"
   )
-set(CMAKE_C_COMPILER_ID "AppleClang")
+set(CMAKE_C_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH

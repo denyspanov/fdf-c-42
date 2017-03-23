@@ -11,208 +11,77 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
-/*
-void line(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
+void ss(t_coord **tmp, int i)
 {
-    int dy = y2 - y1;
-    int dx = x2 - x1;
-    int stepx, stepy;
+    t_coord *sub;
 
-    if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
-    if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
-    dy <<= 1;        // dy is now 2*dy
-    dx <<= 1;        // dx is now 2*dx
-
-    mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
-    if (dx > dy)
+    sub = (*tmp);
+    while ((*tmp)->next != NULL)
     {
-        int fraction = dy - (dx >> 1);  // same as 2*dy - dx
-        while (x1 != x2)
-        {
-            if (fraction >= 0)
-            {
-                y1 += stepy;
-                fraction -= dx;          // same as fraction -= 2*dx
-            }
-            x1 += stepx;
-            fraction += dy;              // same as fraction -= 2*dy
-            mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
-        }
-    } else {
-        int fraction = dx - (dy >> 1);
-        while (y1 != y2) {
-            if (fraction >= 0) {
-                x1 += stepx;
-                fraction -= dy;
-            }
-            y1 += stepy;
-            fraction += dx;
-            mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
-        }
+        if ((*tmp)->z > 1 && i == -1)
+            (*tmp)->z += i;
+        else if ((*tmp)->z > 0 && i != -1 )
+            (*tmp)->z += i;
+        (*tmp) = (*tmp)->next;
     }
+    (*tmp) = sub;
 }
-void lines(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
-{
-    int dy = y2 - y1;
-    int dx = x2 - x1;
-    int stepx, stepy;
-
-    if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
-    if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
-    dy <<= 1;        // dy is now 2*dy
-    dx <<= 1;        // dx is now 2*dx
-
-    mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
-    if (dx > dy)
-    {
-        int fraction = dy - (dx >> 1);  // same as 2*dy - dx
-        while (x1 != x2)
-        {
-            if (fraction >= 0)
-            {
-                y1 += stepy;
-                fraction -= dx;          // same as fraction -= 2*dx
-            }
-            x1 += stepx;
-            fraction += dy;              // same as fraction -= 2*dy
-            mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
-        }
-    } else {
-        int fraction = dx - (dy >> 1);
-        while (y1 != y2) {
-            if (fraction >= 0) {
-                x1 += stepx;
-                fraction -= dy;
-            }
-            y1 += stepy;
-            fraction += dx;
-            mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
-        }
-    }
-}
-void draw(t_coord *head)
-{
-	double y;
-	double x;
-    double x1;
-    double y1;
-	int len;
-    int flag;
-	int pos;
-	int window;
-	void *mlx;
-	void *img;
-	void *wnd;
-	char *str;
-	t_coord *tmp;
-	mlx = mlx_init();
-	window = 1000;
-	wnd = mlx_new_window(mlx, window, window, "FDF");
-	len = 20;
-	pos = 200;
-    flag = 1;
-    tmp = head;
-    double oz = M_PI / 8;
-    double ox =   - (M_PI / 3);
-    double yr;
-    double xr;
-    double z;
-    double yr1;
-    double z1;
-    double xr1;
-	double oy =   - (M_PI / 6);
-	double center_y = 11 / 2;
-	double center_x = 19 / 2;
-	while (head->next != NULL)
-	{
-
-		x = center_x + (head->x - center_x) * cos(oz) - (head->y - center_y) * sin(oz); // OZ
-		y = center_y + (head->y - center_y) * cos(oz) + (head->x - center_x) * sin(oz); // OZ
-
-		x1 = center_x + (head->next->x - center_x) * cos(oz) - (head->next->y - center_y) * sin(oz); // OZ
-		y1 = center_y + (head->next->y - center_y) * cos(oz) + (head->next->x - center_x) * sin(oz); // OZ
-
-		x  = center_x + (x - center_x) * cos(oy) + head->z * sin(oy); // OY
-		x1 = center_x + (x1 - center_x) * cos(oy) + head->next->z * sin(oy);// OY
-
-
-		y = center_y + (y - center_y) * cos(ox) + head->z*sin(ox) ; // OX
-		y1 = center_y + (y1 - center_y) * cos(ox) + head->next->z*sin(ox) ; // OX
-
-        while (tmp->next != NULL && flag == 1)
-        {
-            if (tmp->y != tmp->next->y){
-                tmp = tmp->next;
-                flag = 0;
-                break ;
-            }
-            tmp = tmp->next;
-        }
-		if (head->y == head->next->y) {
-            line(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
-        }
-
-		x1 = center_x + (tmp->x - center_x) * cos(oz) - (tmp->y - center_y) * sin(oz); // OZ
-		y1 = center_y + (tmp->y - center_y) * cos(oz) + (tmp->x - center_x) * sin(oz); // OZ
-
-		x1 = center_x + (x1 - center_x) * cos(oy) + tmp->z * sin(oy); // OY
-		y1 = center_y + (y1 - center_y) * cos(ox) + tmp->z*sin(ox) ; // OX
-
-        if (tmp->next != NULL) {
-            line(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
-            tmp = tmp->next;
-        }
-		head = head->next;
-	}
-	mlx_loop(mlx);
-}
-*/
-
-
 
 void rot_matrix(t_data **data)
 {
-	(*data)->x_home   = (((*data)->center_x + ((*data)->tmp->x - (*data)->center_x) * cos((*data)->oz)) - (((*data)->tmp->y - (*data)->center_y) * sin((*data)->oz)));
-	(*data)->y_home   = (((*data)->center_y + ((*data)->tmp->y - (*data)->center_y) * cos((*data)->oz)) + (((*data)->tmp->x - (*data)->center_x) * sin((*data)->oz)));
+	(*data)->x_home = (((*data)->center_x + ((*data)->tmp->x - (*data)->center_x) * cos((*data)->oz)) - (((*data)->tmp->y - (*data)->center_y) * sin((*data)->oz)));
+	(*data)->y_home = (((*data)->center_y + ((*data)->tmp->y - (*data)->center_y) * cos((*data)->oz)) + (((*data)->tmp->x - (*data)->center_x) * sin((*data)->oz)));
 	(*data)->x_offset = (((*data)->center_x + ((*data)->tmp->next->x - (*data)->center_x) * cos((*data)->oz)) - (((*data)->tmp->next->y - (*data)->center_y) * sin((*data)->oz)));
 	(*data)->y_offset = (((*data)->center_y + ((*data)->tmp->next->y - (*data)->center_y) * cos((*data)->oz)) + (((*data)->tmp->next->x - (*data)->center_x) * sin((*data)->oz)));
-
-/*x  = center_x + (x - center_x) * cos(oy) + head->z * sin(oy); // OY
-	x1 = center_x + (x1 - center_x) * cos(oy) + head->next->z * sin(oy);// OY
-
-
-	y = center_y + (y - center_y) * cos(ox) + head->z*sin(ox) ; // OX
-	y1 = center_y + (y1 - center_y) * cos(ox) + head->next->z*sin(ox) ; // OX*/
+    (*data)->x_home = (((*data)->center_x + ((*data)->x_home - (*data)->center_x) * cos((*data)->oy)) + ((*data)->tmp->z * sin((*data)->oy)));
+    (*data)->x_offset = (((*data)->center_x + ((*data)->x_offset - (*data)->center_x) * cos((*data)->oy)) + ((*data)->tmp->next->z * sin((*data)->oy)));
+    (*data)->y_home = (((*data)->center_y + ((*data)->y_home - (*data)->center_y) * cos((*data)->ox)) + ((*data)->tmp->z * sin((*data)->ox)));
+    (*data)->y_offset = (((*data)->center_y + ((*data)->y_offset - (*data)->center_y) * cos((*data)->ox)) + ((*data)->tmp->next->z * sin((*data)->ox)));
+    (*data)->x_offset_vert = (((*data)->center_x + ((*data)->tmp_vert->x - (*data)->center_x) * cos((*data)->oz)) - (((*data)->tmp_vert->y - (*data)->center_y) * sin((*data)->oz)));
+    (*data)->y_offset_vert = (((*data)->center_y + ((*data)->tmp_vert->y - (*data)->center_y) * cos((*data)->oz)) + (((*data)->tmp_vert->x - (*data)->center_x) * sin((*data)->oz)));
+    (*data)->x_offset_vert = (((*data)->center_x + ((*data)->x_offset_vert - (*data)->center_x) * cos((*data)->oy)) + ((*data)->tmp_vert->z * sin((*data)->oy)));
+    (*data)->y_offset_vert = (((*data)->center_y + ((*data)->y_offset_vert - (*data)->center_y) * cos((*data)->ox)) + ((*data)->tmp_vert->z * sin((*data)->ox)));
 }
 
 
-void line(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
+void line(t_data **data, int fl)
 {
+    int x1,x2,y1,y2;
+    x1 = (int)(*data)->x_home;
+    y1 = (int)(*data)->y_home;
+    if (fl)
+    {
+        x2 = (int)(*data)->x_offset;
+        y2 = (int)(*data)->y_offset;
+    }else
+    {
+        x2 = (int)(*data)->x_offset_vert;
+        y2 = (int)(*data)->y_offset_vert;
+    }
 	int dy = y2 - y1;
 	int dx = x2 - x1;
 	int stepx, stepy;
 
 	if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
 	if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
-	dy <<= 1;        // dy is now 2*dy
-	dx <<= 1;        // dx is now 2*dx
+	dy <<= 1;
+	dx <<= 1;
 
-	mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+	mlx_pixel_put((*data)->mlx,(*data)->win,x1,y1,0x00FFFFFF);
 	if (dx > dy)
 	{
-		int fraction = dy - (dx >> 1);  // same as 2*dy - dx
+		int fraction = dy - (dx >> 1);
 		while (x1 != x2)
 		{
 			if (fraction >= 0)
 			{
 				y1 += stepy;
-				fraction -= dx;          // same as fraction -= 2*dx
+				fraction -= dx;
 			}
 			x1 += stepx;
-			fraction += dy;              // same as fraction -= 2*dy
-			mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+			fraction += dy;
+            mlx_pixel_put((*data)->mlx,(*data)->win,x1,y1,0x00FFFFFF);
 		}
 	} else {
 		int fraction = dx - (dy >> 1);
@@ -223,115 +92,125 @@ void line(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
 			}
 			y1 += stepy;
 			fraction += dx;
-			mlx_pixel_put(mlx,wnd,x1,y1,0x00FFFFFF);
+            mlx_pixel_put((*data)->mlx,(*data)->win,x1,y1,0x00FFFFFF);
 		}
 	}
 }
-void lines(int x1, int x2, int y1 ,int y2, void *mlx, void *wnd)
+
+int key_s(int keycode, t_data **data)
 {
-	int dy = y2 - y1;
-	int dx = x2 - x1;
-	int stepx, stepy;
-
-	if (dy < 0) { dy = -dy;  stepy = -1; } else { stepy = 1; }
-	if (dx < 0) { dx = -dx;  stepx = -1; } else { stepx = 1; }
-	dy <<= 1;        // dy is now 2*dy
-	dx <<= 1;        // dx is now 2*dx
-
-	mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
-	if (dx > dy)
-	{
-		int fraction = dy - (dx >> 1);  // same as 2*dy - dx
-		while (x1 != x2)
-		{
-			if (fraction >= 0)
-			{
-				y1 += stepy;
-				fraction -= dx;          // same as fraction -= 2*dx
-			}
-			x1 += stepx;
-			fraction += dy;              // same as fraction -= 2*dy
-			mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
-		}
-	} else {
-		int fraction = dx - (dy >> 1);
-		while (y1 != y2) {
-			if (fraction >= 0) {
-				x1 += stepx;
-				fraction -= dy;
-			}
-			y1 += stepy;
-			fraction += dx;
-			mlx_pixel_put(mlx,wnd,x1,y1,0x00FF88FF);
-		}
-	}
+    if (keycode == 99)
+        (*data)->oy_mod += 10;
+    if (keycode == 118)
+        (*data)->oy_mod -= 10;
+    if (keycode == 98)
+        (*data)->ox_mod += 10;
+    if (keycode == 110)
+        (*data)->ox_mod -= 10;
+    if (keycode == 61)
+        (*data)->len += 1;
+    if (keycode == 45)
+        (*data)->len -= 1;
+    mlx_clear_window((*data)->mlx,(*data)->win);
+    data_reload(&(*data));
+    return (0);
 }
+
+int key_f(int keycode, t_data **data)
+{
+    if (keycode == 65307)
+        exit(0);
+    if (keycode == 65363)
+        (*data)->x_pox += 10;
+    if (keycode == 65361)
+        (*data)->x_pox -= 10;
+    if (keycode == 65364)
+        (*data)->y_pox += 10;
+    if (keycode == 65362)
+        (*data)->y_pox -= 10;
+    if (keycode == 65451)
+        ss(&(*data)->head, +1);
+    if (keycode == 65453)
+        ss(&(*data)->head, -1);
+    if (keycode == 122)
+        (*data)->oz_mod += 10;
+    if (keycode == 120)
+        (*data)->oz_mod -= 10;
+    key_s(keycode, &(*data));
+    mlx_clear_window((*data)->mlx,(*data)->win);
+    data_reload(&(*data));
+    return (0);
+}
+
+void data_reload(t_data **data)
+{
+    t_coord *tmp;
+    (*data)->tmp = (*data)->head;
+    (*data)->oz = ((*data)->oz_mod * M_PI) / 180;
+    (*data)->ox = ((*data)->ox_mod * M_PI) / 180;
+    (*data)->oy = ((*data)->oy_mod * M_PI) / 180;
+    tmp = (*data)->head;
+    while (tmp->next != NULL)
+    {
+        if (tmp->y != tmp->next->y){
+            tmp = tmp->next;
+            break ;
+        }
+        tmp = tmp->next;
+    }
+    (*data)->tmp_vert = tmp;
+    draw(&(*data));
+}
+
 void draw(t_data **data)
 {
-	int len;
-	int pos;
-	int window;
-	void *mlx;
-	void *img;
-	void *wnd;
-	char *str;
-	t_coord *tmp;
-	mlx = mlx_init();
-	window = 1000;
-	wnd = mlx_new_window(mlx, window, window, "FDF");
-	len = 20;
-	pos = 200;
-	tmp = (*data)->head;
-	(*data)->tmp = (*data)->head;
-	(*data)->oz = M_PI / 8;
 	while ((*data)->tmp->next != NULL)
 	{
-
 		rot_matrix(&(*data));
+        (*data)->x_offset = (*data)->x_offset * (*data)->len + (*data)->x_pox;
+        (*data)->x_home = (*data)->x_home * (*data)->len + (*data)->x_pox;
+        (*data)->y_home = (*data)->y_home * (*data)->len + (*data)->y_pox;
+        (*data)->y_offset = (*data)->y_offset * (*data)->len + (*data)->y_pox;
+        (*data)->y_offset_vert = (*data)->y_offset_vert * (*data)->len + (*data)->y_pox;
+        (*data)->x_offset_vert = (*data)->x_offset_vert * (*data)->len + (*data)->x_pox;
 		if ((*data)->tmp->y == (*data)->tmp->next->y) {
-			line((*data)->x_home* len + pos, (*data)->x_offset * len + pos, (*data)->y_home * len + pos, (*data)->y_offset * len + pos, mlx, wnd);
+			line(&(*data), 1);
 		}
-
-	/*	*//**//*x1 = center_x + (tmp->x - center_x) * cos(oz) - (tmp->y - center_y) * sin(oz); // OZ
-		y1 = center_y + (tmp->y - center_y) * cos(oz) + (tmp->x - center_x) * sin(oz); // OZ
-
-		x1 = center_x + (x1 - center_x) * cos(oy) + tmp->z * sin(oy); // OY
-		y1 = center_y + (y1 - center_y) * cos(ox) + tmp->z*sin(ox) ; // OX
-
-		if (tmp->next != NULL) {
-			line(x * len + pos, x1 * len + pos, y * len + pos, y1 * len + pos, mlx, wnd);
-			tmp = tmp->next;
-		}*//**/
-		(*data)->tmp = (*data)->tmp->next;
+        if ((*data)->tmp_vert->next != NULL) {
+            line(&(*data), 0);
+            (*data)->tmp_vert = (*data)->tmp_vert->next;
+        }
+        (*data)->tmp = (*data)->tmp->next;
 	}
-	mlx_loop(mlx);
+    mlx_key_hook((*data)->win, key_f, &(*data));
+	mlx_loop((*data)->mlx);
+}
+
+void mlx_it(t_data **data)
+{
+    (*data)->mlx = mlx_init();
+    (*data)->win = mlx_new_window((*data)->mlx, 1920, 1080, "FDF");
+    (*data)->x_pox = 0;
+    (*data)->y_pox = 0;
+    (*data)->height = 1;
+    (*data)->oz_mod = 0;
+    (*data)->ox_mod = 0;
+    (*data)->len = 1;
+    (*data)->oy_mod = 0;
+    data_reload(&(*data));
 }
 
 int main(int argc, char **argv)
 {
 	int fd;
 	t_data *data;
-
 	if (argc > 1)
 	{
 		fd = open(argv[1],O_RDONLY);
 		if (fd < 0)
 			return (0);
 		data = coord_read(fd);
-		draw(&data);
-		/*while (data->head->next != NULL)
-		{
-			printf("x: %f ", data->head->x);
-			printf("y: %f ", data->head->y);
-			printf("z: %f ", data->head->z);
-			printf("color: %d\n", data->head->color);
-			data->head = data->head->next;
-		}
-		printf("max_y: %d ", data->max_y);
-		printf("max_x: %d\n", data->max_x);
-		printf("center_x: %f ", data->center_x);
-		printf("center_y: %f\n", data->center_y);*/
-        /*draw(head);*/
+        mlx_it(&data);
 	}
 	return (0);
 }

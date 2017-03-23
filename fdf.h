@@ -31,7 +31,11 @@ typedef struct s_data
 	int x_pox;
 	int y_pox;
 	int len;
-	double oz;
+    double height;
+    double oz;
+    double oz_mod;
+    double ox_mod;
+    double oy_mod;
 	double ox;
 	double oy;
 	char *data;
@@ -40,4 +44,7 @@ typedef struct s_data
 	void *img;
 }t_data;
 t_data *coord_read(int fd);
+void mlx_it(t_data **data);
+void draw(t_data **data);
+void data_reload(t_data **data);
 #endif
