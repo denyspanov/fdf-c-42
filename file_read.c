@@ -12,68 +12,32 @@
 
 #include "fdf.h"
 
-int		back_char(const char c)
+int		ft_atoi_hex(const char *s, t_coord **tmp)
 {
-	char *s;
-
-	if (c >= 48 && c <= 57)
-	{
-		s = ft_strnew(2);
-		s[0] = c;
-		s[1] = '\0';
-		return (ft_atoi(s));
-	}
-	else if (c == 'a' || c == 'A')
-		return (10);
-	else if (c == 'b' || c == 'B')
-		return (11);
-	else if (c == 'c' || c == 'C')
-		return (12);
-	else if (c == 'd' || c == 'D')
-		return (13);
-	else if (c == 'e' || c == 'E')
-		return (14);
-	else if (c == 'f' || c == 'F')
-		return (15);
-	else
-		return (0);
-}
-
-int		ft_pow(int number, int power)
-{
-	int	res;
-
-	if (power == 0)
-		return (1);
-	res = 1;
-	while (power != 0)
-	{
-		res *= number;
-		power--;
-	}
-	return (res);
-}
-
-int		ft_atoi_hex(const char *s)
-{
-	int n;
 	int i;
 	int j;
-
-	n = 0;
+    int mas[6];
 	j = 0;
 	while (s[j] != 'x' && s[j] != '\0')
 		j++;
 	i = (int)ft_strlen(s);
 	if (j == i)
-		return (0);
-	j = 0;
-	while (s[--i] != 'x')
-	{
-		n += back_char(s[i]) * ft_pow(16, j);
-		j++;
-	}
-	return (n);
+        return (0);
+    i = -1;
+    while (s[++j] && ++i < 6)
+    {
+        if (s[j] > 47 && s[j] < 58)
+        {
+            mas[i] = (int)s[j] - 48;
+        }else if (s[j] > 64 && s[j] < 71)
+        {
+            mas[i] = (int)s[j] - 55;
+        }
+    }
+    (*tmp)->r = 16 * mas[0] + mas[1];
+    (*tmp)->g = 16 * mas[2] + mas[3];
+    (*tmp)->b = 16 * mas[4] + mas[5];
+    return (1);
 }
 
 int		coord_put(t_coord **tmp, char **src, int x, int y)
@@ -83,7 +47,7 @@ int		coord_put(t_coord **tmp, char **src, int x, int y)
 		(*tmp)->x = x;
 		(*tmp)->y = y;
 		(*tmp)->z = ft_atoi(src[x]);
-		(*tmp)->color = ft_atoi_hex(src[x]);
+		(*tmp)->color = ft_atoi_hex(src[x], &(*tmp));
 		(*tmp)->next = (t_coord *)malloc(sizeof(t_coord));
 		(*tmp)->next->next = NULL;
 		(*tmp) = (*tmp)->next;

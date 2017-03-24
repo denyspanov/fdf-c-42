@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
 void ss(t_coord **tmp, int i)
 {
@@ -44,17 +45,26 @@ void rot_matrix(t_data **data)
     (*data)->y_offset_vert = (((*data)->center_y + ((*data)->y_offset_vert - (*data)->center_y) * cos((*data)->ox)) + ((*data)->tmp_vert->z * sin((*data)->ox)));
 }
 
-void	ft_put_px(t_data **data, int y, int x)
+void	ft_put_px(t_data **data, int y, int x, int i)
 {
 	int p;
 
-	p = (x * 4) + (y * 1280 * 4);
-	if (p >= 0 && p < (1280 * 720 * 4) && p > (y * 1280) && p > (y * 1280 + 1280))
+	p = (x * 4) + (y * 5120);
+	if ( p >= 0 && p < (3686400) && x < 1280 && y < 720 && x > 0)
 	{
-		(*data)->data[p] = 255;
-		(*data)->data[p + 1] = 255;
-		(*data)->data[p + 2] = 255;
-	}
+        (*data)->data[p] = 200;
+        (*data)->data[p + 1] = 80;
+        (*data)->data[p + 2] = 255;
+        if ((*data)->tmp->color  && i == 1){
+            (*data)->data[p] = (*data)->tmp->b;
+            (*data)->data[p + 1] = (*data)->tmp->g;
+            (*data)->data[p + 2] = (*data)->tmp->r;
+        } else if (((*data)->tmp_vert->color)){
+            (*data)->data[p] = (*data)->tmp_vert->b;
+            (*data)->data[p + 1] = (*data)->tmp_vert->g;
+            (*data)->data[p + 2] = (*data)->tmp_vert->r;
+        }
+    }
 }
 
 void	ft_create_image(t_data **data, int n)
@@ -71,9 +81,6 @@ void	ft_create_image(t_data **data, int n)
 	if (n == 2)
 	{
 		mlx_put_image_to_window((*data)->mlx, (*data)->win, (*data)->img, 0, 0);
-		ft_strdel(&(*data)->data);
-		(*data)->img = mlx_new_image((*data)->mlx, (*data)->img_size_x, (*data)->img_size_y);
-		(*data)->data = mlx_get_data_addr((*data)->img, &bpp, &sizeline, &endian);
 		mlx_destroy_image((*data)->mlx, (*data)->img);
 	}
 	if (n == 3)
@@ -82,81 +89,6 @@ void	ft_create_image(t_data **data, int n)
 
 		mlx_destroy_image((*data)->mlx, (*data)->img);
 	}
-}
-
-void	draw_line(t_data **data, int i)
-{
-	double dx;
-	double dy;
-	double x;
-	double y;
-	double temp;
-
-	x = (*data)->x_home;
-	y = (*data)->y_home;
-	if (i) {
-		dx = (*data)->x_offset - (*data)->x_home;
-		dy = (*data)->y_offset - (*data)->y_home;
-	}else
-	{
-		dx = (*data)->x_offset_vert - (*data)->x_home;
-		dy = (*data)->y_offset_vert - (*data)->y_home;
-	}
-	temp = sqrt((dx * dx) + (dy * dy));
-	dx /= temp;
-	dy /= temp;
-	while (temp >= 0)
-	{
-		ft_put_px(&(*data), (int)y, (int)x);
-		x += dx;
-		y += dy;
-		temp--;
-	}
-}
-
-int key_s(t_data **data)
-{
-    if ((*data)->key == 8)
-        (*data)->oy_mod += 10;
-    if ((*data)->key == 9)
-        (*data)->oy_mod -= 10;
-    if ((*data)->key == 11)
-        (*data)->ox_mod += 10;
-    if ((*data)->key == 45)
-        (*data)->ox_mod -= 10;
-    if ((*data)->key == 24)
-    {
-        (*data)->len += 1;
-    }
-    if ((*data)->key == 27)
-	    if ((*data)->len > 1)
-	        (*data)->len -= 1;
-    return (0);
-}
-
-int key_f(t_data **data)
-{
-   if ((*data)->key == 53)
-        exit(0);
-    if ((*data)->key == 124)
-        (*data)->x_pox += 10;
-    if ((*data)->key == 123)
-        (*data)->x_pox -= 10;
-    if ((*data)->key == 125)
-        (*data)->y_pox += 10;
-    if ((*data)->key == 126)
-        (*data)->y_pox -= 10;
-    if ((*data)->key == 69)
-        ss(&(*data)->head, +1);
-    if ((*data)->key == 78)
-        ss(&(*data)->head, -1);
-    if ((*data)->key == 6)
-        (*data)->oz_mod += 10;
-    if ((*data)->key == 7)
-        (*data)->oz_mod -= 10;
-	mlx_clear_window((*data)->mlx,(*data)->win);
-	data_reload(&(*data));
-    return (0);
 }
 
 void data_reload(t_data **data)
@@ -176,58 +108,93 @@ void data_reload(t_data **data)
         tmp = tmp->next;
     }
     (*data)->tmp_vert = tmp;
+    tmp = tmp->next;
+    while (tmp->next != NULL)
+    {
+        if (tmp->y != tmp->next->y){
+            tmp = tmp->next;
+            break ;
+        }
+        tmp = tmp->next;
+    }
+    (*data)->tmp_vert_col = tmp;
     draw(&(*data));
 }
 
-int key_pressed_x(int key, t_data **data)
+int key_s(int keycode, t_data **data)
 {
-	if (key == 8)
-		(*data)->key = 8;
-	if (key == 9)
-		(*data)->key = 9;
-	if (key == 11)
-		(*data)->key = 11;
-	if (key == 45)
-		(*data)->key = 45;
-	if (key == 24)
-		(*data)->key = 24;
-	if (key == 27)
-		(*data)->key = 27;
-	return (0);
+    if (keycode == 99)
+        (*data)->oy_mod += 10;
+    if (keycode == 118)
+        (*data)->oy_mod -= 10;
+    if (keycode == 98)
+        (*data)->ox_mod += 10;
+    if (keycode == 110)
+        (*data)->ox_mod -= 10;
+    if (keycode == 61)
+        (*data)->len += 1;
+    if (keycode == 45)
+        (*data)->len -= 1;
+    mlx_clear_window((*data)->mlx,(*data)->win);
+    data_reload(&(*data));
+    return (0);
 }
 
-int     key_pressed(int key, t_data **data)
+int key_f(int keycode, t_data **data)
 {
-	if (key == 124)
-		(*data)->key = 124;
-	if (key == 53)
-		(*data)->key = 53;
-	if (key == 124)
-		(*data)->key = 124;
-	if (key == 123)
-		(*data)->key = 123;
-	if (key == 125)
-		(*data)->key = 125;
-	if (key == 126)
-		(*data)->key = 126;
-	if (key == 69)
-		(*data)->key = 69;
-	if (key == 78)
-		(*data)->key = 78;
-	if (key == 6)
-		(*data)->key = 6;
-	if (key == 7)
-		(*data)->key = 7;
-	key_pressed_x(key, &(*data));
-	return (0);
+    if (keycode == 65307)
+        exit(0);
+    if (keycode == 65363)
+        (*data)->x_pox += 10;
+    if (keycode == 65361)
+        (*data)->x_pox -= 10;
+    if (keycode == 65364)
+        (*data)->y_pox += 10;
+    if (keycode == 65362)
+        (*data)->y_pox -= 10;
+    if (keycode == 65451)
+        ss(&(*data)->head, +1);
+    if (keycode == 65453)
+        ss(&(*data)->head, -1);
+    if (keycode == 122)
+        (*data)->oz_mod += 10;
+    if (keycode == 120)
+        (*data)->oz_mod -= 10;
+    key_s(keycode, &(*data));
+    mlx_clear_window((*data)->mlx,(*data)->win);
+    data_reload(&(*data));
+    return (0);
 }
 
-int     key_released(int key, t_data **data)
+void	draw_line(t_data **data, int i)
 {
-	(*data)->key = 0;
-	return (0);
-}
+    double dx;
+    double dy;
+    double x;
+    double y;
+    double temp;
 
+    x = (*data)->x_home;
+    y = (*data)->y_home;
+    if (i) {
+        dx = (*data)->x_offset - (*data)->x_home;
+        dy = (*data)->y_offset - (*data)->y_home;
+    }else
+    {
+        dx = (*data)->x_offset_vert - (*data)->x_home;
+        dy = (*data)->y_offset_vert - (*data)->y_home;
+    }
+    temp = sqrt((dx * dx) + (dy * dy));
+    dx /= temp;
+    dy /= temp;
+    while (temp >= 0)
+    {
+        ft_put_px(&(*data), (int)y, (int)x, i);
+        x += dx;
+        y += dy;
+        temp--;
+    }
+}
 void draw(t_data **data)
 {
 	ft_create_image(&(*data), 1);
@@ -250,10 +217,6 @@ void draw(t_data **data)
         (*data)->tmp = (*data)->tmp->next;
 	}
 	ft_create_image(&(*data), 2);
-	mlx_hook((*data)->win, 2, 0, key_pressed, &(*data));
-	mlx_hook((*data)->win, 3, 0, key_released, &(*data));
-	mlx_loop_hook((*data)->mlx, key_f, &(*data));
-	mlx_loop((*data)->mlx);
 }
 
 void mlx_it(t_data **data)
@@ -272,6 +235,12 @@ void mlx_it(t_data **data)
     data_reload(&(*data));
 }
 
+int		loop_event(t_data **data)
+{
+    data_reload(&(*data));
+    return (0);
+}
+
 int main(int argc, char **argv)
 {
 	int fd;
@@ -283,6 +252,9 @@ int main(int argc, char **argv)
 			return (0);
 		data = coord_read(fd);
         mlx_it(&data);
+        mlx_hook(data->win, 2, 3, key_f, &data);
+        mlx_loop_hook(data->mlx, &loop_event, &data);
+        mlx_loop(data->mlx);
 	}
 	return (0);
 }

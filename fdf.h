@@ -28,6 +28,7 @@ typedef struct s_data
 	int max_x;
 	int max_y;
 	int key;
+	struct s_coord *tmp_vert_col;
 	double x_home;
 	double y_home;
 	double x_offset;
