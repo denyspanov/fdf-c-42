@@ -9,7 +9,7 @@ Used with mlx on X11 version.
 <br /><br /><br /><br /><br /><br /><br /><br /><br />
 ## Usage
 	$>  make
-	$>  usage: ./fdf map
+	$>  usage: ./fdf [map]
 
 ## Controls
 
