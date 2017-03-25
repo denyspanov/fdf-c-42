@@ -15,15 +15,15 @@ Used with mlx on X11 version.
 
 -Basic controls:
 
-Num : '+' , '-', to up Z-Values;
-'+' , '-' , to use Zoom;
-'A', 'Z', to change oz;
-'S', 'X', to change ox;
-'D', 'C', to change oy;
-'R', 'T', to change color R;
-'G', 'H', to change color G;
-'B', 'N', to change color B;
-'Arrows', change position;
-You also need the "minilibx" to be installed on your device.
+Num : '+' , '-', to up Z-Values;<br />
+'+' , '-' , to use Zoom;<br />
+'A', 'Z', to change oz;<br />
+'S', 'X', to change ox;<br />
+'D', 'C', to change oy;<br />
+'R', 'T', to change color R;<br />
+'G', 'H', to change color G;<br />
+'B', 'N', to change color B;<br />
+'Arrows', change position;<br />
+You also need the "minilibx" to be installed on your device.<br />
 
 </tbody>
