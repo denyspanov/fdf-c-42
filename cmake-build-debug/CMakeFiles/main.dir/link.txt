@@ -1,1 +1,0 @@
-/usr/bin/cc  -g   CMakeFiles/main.dir/main.c.o CMakeFiles/main.dir/file_read.c.o  -o main ../libft.a -lmlx -framework OpenGL -framework AppKit 
