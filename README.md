@@ -15,8 +15,8 @@ Used with mlx on X11 version.
 
 -Basic controls:
 
-Num : '+' , '-', to up Z-Values.
-'+' , '-' , to use Zoom.
+Num : '+' , '-', to up Z-Values;
+'+' , '-' , to use Zoom;
 'A', 'Z', to change oz;
 'S', 'X', to change ox;
 'D', 'C', to change oy;
