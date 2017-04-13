@@ -24,6 +24,4 @@ Num : '+' , '-', to up Z-Values;<br />
 'G', 'H', to change color G;<br />
 'B', 'N', to change color B;<br />
 'Arrows', change position;<br />
-You also need the "minilibx" to be installed on your device.<br />
-
 </tbody>
