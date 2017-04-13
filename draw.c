@@ -89,5 +89,4 @@ void	draw(t_data **data)
 		(*data)->tmp = (*data)->tmp->next;
 	}
 	ft_create_image(&(*data), 2);
-	display_menu(&(*data));
 }

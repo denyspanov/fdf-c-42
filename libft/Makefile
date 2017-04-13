@@ -14,7 +14,7 @@ NAME = libft.a
 
 SRC =   ft_atoi.c \
         ft_bzero.c \
-		ft_get_next_line.c \
+	ft_get_next_line.c \
         ft_itoa.c \
         ft_memalloc.c \
         ft_memccpy.c \

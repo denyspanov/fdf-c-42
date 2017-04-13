@@ -66,7 +66,7 @@ void	er_handler(t_data **data, int i)
 		ft_putstr("File error: (x != x).\n");
 		exit(0);
 	}
-	if ((*data)->max_y == 0 & i == 2)
+	if ((*data)->max_y == 0 && i == 2)
 	{
 		ft_putstr("File error: empty.\n");
 		exit(0);

@@ -14,25 +14,25 @@
 
 int		key_s(int keycode, t_data **data)
 {
-	if (keycode == 1)
+	if (keycode == KEY_X)
 		(*data)->oy_mod += 10;
-	if (keycode == 7)
+	if (keycode == KEY_S)
 		(*data)->oy_mod -= 10;
-	if (keycode == 2)
+	if (keycode == KEY_C)
 		(*data)->ox_mod += 10;
-	if (keycode == 8)
+	if (keycode == KEY_D)
 		(*data)->ox_mod -= 10;
-	if (keycode == 24)
+	if (keycode == KEY_EQUAL)
 		(*data)->len += 1;
-	if (keycode == 27 && (*data)->len > 1)
+	if (keycode == KEY_MINUS && (*data)->len > 1)
 		(*data)->len -= 1;
-	if (keycode == 15 && (*data)->bas_r < 255)
+	if (keycode == KEY_R && (*data)->bas_r < 255)
 		(*data)->bas_r++;
-	if (keycode == 17 && (*data)->bas_r > 1)
+	if (keycode == KEY_T && (*data)->bas_r > 1)
 		(*data)->bas_r--;
-	if (keycode == 5 && (*data)->bas_g < 255)
+	if (keycode == KEY_G && (*data)->bas_g < 255)
 		(*data)->bas_g++;
-	if (keycode == 4 && (*data)->bas_g > 1)
+	if (keycode == KEY_H && (*data)->bas_g > 1)
 		(*data)->bas_g--;
 	mlx_clear_window((*data)->mlx, (*data)->win);
 	data_reload(&(*data));
@@ -63,27 +63,27 @@ void	rot_matri_y(t_data **data)
 
 int		key_f(int keycode, t_data **data)
 {
-	if (keycode == 53)
+	if (keycode == KEY_ESCAPE)
 		exit(0);
-	if (keycode == 124)
+	if (keycode == KEY_RIGHT)
 		(*data)->x_pox += 10;
-	if (keycode == 123)
+	if (keycode == KEY_LEFT)
 		(*data)->x_pox -= 10;
-	if (keycode == 125)
+	if (keycode == KEY_DOWN)
 		(*data)->y_pox += 10;
-	if (keycode == 126)
+	if (keycode == KEY_UP)
 		(*data)->y_pox -= 10;
-	if (keycode == 69)
+	if (keycode == KEY_PAD_ADD)
 		ss(&(*data), +1);
-	if (keycode == 78)
+	if (keycode == KEY_PAD_SUB)
 		ss(&(*data), -1);
-	if (keycode == 0)
+	if (keycode == KEY_Z)
 		(*data)->oz_mod += 10;
-	if (keycode == 6)
+	if (keycode == KEY_A)
 		(*data)->oz_mod -= 10;
-	if (keycode == 11 && (*data)->bas_b < 255)
+	if (keycode == KEY_B && (*data)->bas_b < 255)
 		(*data)->bas_b++;
-	if (keycode == 45 && (*data)->bas_b > 1)
+	if (keycode == KEY_N && (*data)->bas_b > 1)
 		(*data)->bas_b--;
 	key_s(keycode, &(*data));
 	return (0);
@@ -92,6 +92,7 @@ int		key_f(int keycode, t_data **data)
 int		loop_event(t_data **data)
 {
 	data_reload(&(*data));
+	display_menu(&(*data));
 	return (0);
 }
 
